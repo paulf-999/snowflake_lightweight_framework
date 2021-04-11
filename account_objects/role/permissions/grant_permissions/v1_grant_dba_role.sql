@@ -1,0 +1,3 @@
+!SET variable_substitution=true;
+USE ROLE SECURITYADMIN;
+GRANT ROLE &{PROGRAM}_&{ENV}_DBA TO USER [EXAMPLE_USER];
