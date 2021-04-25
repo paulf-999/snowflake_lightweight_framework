@@ -1,9 +1,8 @@
-#default: create_snowflake_account_objs establish_sf_s3_connectivity create_snowflake_raw_db_objs create_snowflake_curated_db_objs create_snowflake_analytics_db_objs
+default: create_snowflake_account_objs establish_sf_s3_connectivity create_snowflake_raw_db_objs create_snowflake_curated_db_objs create_snowflake_analytics_db_objs
 
 # fetch inputs from config (json) file
-AWS_PROFILE=edp-prod
-SNOWFLAKE_CONN_PROFILE=amgd
-CONFIG_FILE=config_prod.json
+SNOWFLAKE_CONN_PROFILE=#
+CONFIG_FILE=env/config_example.json
 #$(eval [VAR_NAME]=$(shell jq '.Parameters.[VAR_NAME]' ${CONFIG_FILE}))
 $(eval PROGRAM=$(shell jq '.Parameters.Program' ${CONFIG_FILE}))
 $(eval PROGRAM_LOWER = $(shell echo $(PROGRAM) | tr 'A-Z' 'a-z'))
@@ -27,6 +26,7 @@ deps:
 
 create_snowflake_account_objs:
 	$(info [+] Create the snowflake account objects)
+	@[ "${SNOWFLAKE_CONN_PROFILE}" ] || ( echo "\nError: SNOWFLAKE_CONN_PROFILE variable is not set\n"; exit 1 )
 	@${SNOWSQL_QUERY_OPTS} -f account_objects/role/v1_roles.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	@${SNOWSQL_QUERY_OPTS} -f account_objects/role/permissions/grant_permissions/v1_grant_dba_role.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	@${SNOWSQL_QUERY_OPTS} -f account_objects/role/permissions/grant_permissions/create/v1_grant_create_db_and_wh_perms.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
@@ -45,14 +45,18 @@ create_snowflake_account_objs:
 	@${SNOWSQL_QUERY_OPTS} -f account_objects/role/permissions/grant_permissions/ownership/v1_grant_storage_int_ownership_perms.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	@${SNOWSQL_QUERY_OPTS} -f account_objects/role/permissions/grant_permissions/v1_grant_role_permissions.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 
-#execute this command manually
 establish_sf_s3_connectivity:
-	$(info [+] )
-	cd ../snowflake-s3-connectivity/ && make -f setup_sf_connectivity.mk
+	$(info [+] Establishes connectivity between specified S3 buckets and Snowflake)
+	@[ "${SNOWFLAKE_CONN_PROFILE}" ] || ( echo "\nError: SNOWFLAKE_CONN_PROFILE variable is not set\n"; exit 1 )
+	cd ../build/snowflake-s3-connectivity/ && make -f setup_sf_connectivity.mk update_s3_bucket_policies CONFIG_FILE=${CONFIG_FILE}
+	cd ../build/snowflake-s3-connectivity/ && make -f setup_sf_connectivity.mk create_tmp_snowflake_iam_role CONFIG_FILE=${CONFIG_FILE}
+	cd ../build/snowflake-s3-connectivity/ && make -f setup_sf_connectivity.mk create_sf_storage_int_obj CONFIG_FILE=${CONFIG_FILE}
+	cd ../build/snowflake-s3-connectivity/ && make -f setup_sf_connectivity.mk create_snowflake_iam_role CONFIG_FILE=${CONFIG_FILE}
 
 create_snowflake_raw_db_objs:
 	$(info [+] Create the snowflake RAW db objects)
 	@$(eval PROGRAM_LOWER = $(shell echo $(PROGRAM) | tr 'A-Z' 'a-z'))
+	@[ "${SNOWFLAKE_CONN_PROFILE}" ] || ( echo "\nError: SNOWFLAKE_CONN_PROFILE variable is not set\n"; exit 1 )
 	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/file_format/v1_parquet_file_format.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/file_format/v1_csv_file_format.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/stage/v1_${DATA_SRC}_stage.sql --variable PROGRAM=${PROGRAM_LOWER} --variable ENV=${ENV} --variable AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID} --variable STAGE=${STAGE} --variable BRANCH=${BRANCH}
@@ -64,9 +68,12 @@ create_snowflake_raw_db_objs:
 	
 create_snowflake_curated_db_objs:
 	$(info [+] Create the snowflake curated db objects)
+	@[ "${SNOWFLAKE_CONN_PROFILE}" ] || ( echo "\nError: SNOWFLAKE_CONN_PROFILE variable is not set\n"; exit 1 )
 	${SNOWSQL_QUERY_OPTS} -f database_objects/curated_db/view/${DATA MODEL OBJS}.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
+
 create_snowflake_analytics_db_objs:
 	$(info [+] Create the snowflake analytics db objects)
+	@[ "${SNOWFLAKE_CONN_PROFILE}" ] || ( echo "\nError: SNOWFLAKE_CONN_PROFILE variable is not set\n"; exit 1 )
 	${SNOWSQL_QUERY_OPTS} -f database_objects/analytics_db/view/${REPORTING LAYER OBJS}.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 
 # Dev scripts
