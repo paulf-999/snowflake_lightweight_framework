@@ -1,6 +1,6 @@
 ## Snowflake Lightweight Framework
 
-![image info](./snowflake-framework-architecture.png)
+![image info](pictures/snowflake-framework-architecture.png)
 
 Lightweight framework to quickly create the above Snowflake architecture.
 
