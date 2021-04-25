@@ -17,8 +17,7 @@ The main execution steps are as follows:
     * Databases for each of the zones highlighted above (raw, curated, analytics)
     * A custom role hierarchy (shown below), to exercise RBAC across all of the account/database objects created
     * Corresponding warehouses, resource monitors and 'custom admin-roles', to own account-level operations, e.g. to create a Snowflake Task, Storage Integration object etc.
-2) Create database objects needed to support the above architecture.
-(more to follow.)
+2) Create database objects needed to support the above architecture (more to follow.)
 
 ![image info](pictures/snowflake-role-hierarchy.png)
 
