@@ -2,9 +2,6 @@
 
 Lightweight cookie-cutter framework to quickly create the below Snowflake architecture.
 
-![image info](pictures/snowflake-framework-architecture.png)
-
-
 ### High-level summary
 
 The framework consists of using a `makefile` to orchestrate the execution of `snowsql` commands. Where:
@@ -12,7 +9,9 @@ The framework consists of using a `makefile` to orchestrate the execution of `sn
 * the input `makefile` used is `example_build.mk`
 * and the input args for the `makefile` come from `env/config_example.json`
 
-Where the framework:
+![image info](pictures/snowflake-framework-architecture.png)
+
+The main execution steps within the framework:
 
 1) Creates account objects needed to support the above architecture, including:
 * Databases for each of the zones highlighted above (raw, curated, analytics)
