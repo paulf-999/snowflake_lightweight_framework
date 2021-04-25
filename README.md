@@ -27,6 +27,4 @@ The main execution steps within the framework:
 As this is a cookie cutter solution, the steps involved in building and executing involve:
 
 1) Updating the input parameters within `env/config_example.json`
-2) Within `example_build.mk`
-
-The main execution is carried out within `example_build.mk`, where inputs are read in from the file `env/config_example.json`.
+2) and running `make`!
