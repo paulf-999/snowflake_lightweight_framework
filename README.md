@@ -31,4 +31,3 @@ As this is a cookie cutter solution, the steps involved in building and executin
 2) Within `example_build.mk`
 
 The main execution is carried out within `example_build.mk`, where inputs are read in from the file `env/config_example.json`.
-
