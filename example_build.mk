@@ -62,7 +62,6 @@ create_snowflake_raw_db_objs:
 	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/stage/v1_${DATA_SRC}_stage.sql --variable PROGRAM=${PROGRAM_LOWER} --variable ENV=${ENV} --variable AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID} --variable STAGE=${STAGE} --variable BRANCH=${BRANCH}
 	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/ext_table/v1_${DATA_SRC}_ext_tbl.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/table/v1_etl_control_tbl.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
-	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/table/nexus/tmp/v1_customer.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/table/${DATA_SRC}/${TABLE_TO_LOAD}.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	${SNOWSQL_QUERY_OPTS} -f database_objects/raw_db/task/v1_${DATA_SRC}_tsk.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	

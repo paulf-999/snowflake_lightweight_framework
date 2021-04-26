@@ -26,4 +26,4 @@ The main execution steps are as follows:
 The steps involved in building and executing involve:
 
 1) Updating the input parameters within `env/config_example.json`
-2) and running `make`!
+2) and running `make -f example_build.mk`!
