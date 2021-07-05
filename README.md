@@ -21,6 +21,10 @@ The main execution steps are as follows:
 
 ![image info](pictures/snowflake-role-hierarchy.png)
 
+### Prerequisites:
+
+1) You'll need to create a SnowSQL 'named profile', used to store the credentials used to connect to your Snowflake cluster. Following this, update the value of the variable ${SNOWFLAKE_CONN_PROFILE} to the name you've used for your connection profile
+2) If you're looking to make use of CI/CD activities, you'll need to create a corresponding user the the CI/CD pipelines to use. The templated SQL script to create this user can be found within: `account_objects/user/v1_create_pipeline_deploy_user.sql`
 ### How-to run:
 
 The steps involved in building and executing involve:
