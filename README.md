@@ -36,7 +36,6 @@ Before you begin, ensure you have met the following requirements:
 
 * Install [SnowSQL](https://docs.snowflake.com/en/user-guide/snowsql.html) and configure a SnowSQL [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections)
     * Following this, update the value of the corresponding key `SnowflakeNamedConn` within the file `env/env_example.json`
-*
 
 ### How-to run
 
