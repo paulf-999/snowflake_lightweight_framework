@@ -29,10 +29,10 @@ Where the input args for the `Makefile` come from `env/env_example.json`.
 
 Before you begin, ensure you have met the following requirements:
 
-| Mandatory / Optional | Prerequisite | Steps | File to amend |
-|-------|-----------|------------------|-------|
-| Mandatory | Install [SnowSQL](https://docs.snowflake.com/en/user-guide/snowsql.html) and configure a SnowSQL [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections) | Once you've created a [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections), update the value of the corresponding key `SnowflakeNamedConn` within `env/env_example.json`. | `env/env_example.json` |
-| Optional | Create a user for CI/CD activities | If you're looking to carry out CI/CD activities, you'll need to create a corresponding service role.<br/>The templated SQL script to create this user can be found within:<br/>`account_objects/user/v1_create_pipeline_deploy_user.sql` | `account_objects/user/v1_create_pipeline_deploy_user.sql` |
+| Mandatory / Optional | Prerequisite | Steps |
+| -------| -----------| ------------------|
+| Mandatory | Install [SnowSQL](https://docs.snowflake.com/en/user-guide/snowsql.html) and configure a SnowSQL [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections) | Once you've created a [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections), update the value of the corresponding key `SnowflakeNamedConn` within `env/env_example.json`. |
+| Optional | Create a user for CI/CD activities | If you're looking to carry out CI/CD activities, you'll need to create a corresponding service role.<br/>The templated SQL script to create this user can be found within:<br/>`account_objects/user/v1_create_pipeline_deploy_user.sql` |
 
 ### How-to run
 
