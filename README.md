@@ -6,8 +6,7 @@ Cookie-cutter framework to quickly create a lightweight Snowflake architecture.
 
 The framework consists of using a `makefile` to orchestrate the execution of `snowsql` commands. Where:
 
-* the input `makefile` used is `example_build.mk`
-* and the input args for the `makefile` come from `env/config_example.json`
+* the input args for the `makefile` come from `env/config_example.json`
 
 ![image info](pictures/snowflake-framework-architecture.png)
 
@@ -30,4 +29,4 @@ The main execution steps are as follows:
 The steps involved in building and executing involve:
 
 1) Updating the input parameters within `env/config_example.json`
-2) and running `make -f example_build.mk`!
+2) and running `make`!
