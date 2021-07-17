@@ -1,4 +1,4 @@
-# Project Title
+# Snowflake Lightweight Framework
 
 Cookie-cutter framework to quickly create a lightweight Snowflake architecture.
 
