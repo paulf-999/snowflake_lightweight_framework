@@ -11,6 +11,7 @@ Cookie-cutter framework to quickly create a lightweight Snowflake architecture.
     * Prerequisites
 3. How-to run
     * Input parameters
+4. Additional info - overview of execution steps
 
 ---
 
@@ -46,7 +47,7 @@ The steps involved in building and executing involve:
 
 ---
 
-#### Input parameters
+#### Input parameters (within `env/env_example.json`)
 
 Described below are the input parameters (from the file `env/env_example.json`) that are required for the framework:
 
@@ -59,3 +60,15 @@ Described below are the input parameters (from the file `env/env_example.json`) 
 | `SnowflakeNamedConn` | * Refers to the value of a Snowflake 'named connection'<br/>* [`snowsql`](https://docs.snowflake.com/en/user-guide/snowsql.html) stores connection details within a configuration file<br/>* The default path to the configuration file is `~/.snowsql/config`<br/>* See [Snowflake Named Connections](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections) | `eg_sf_profile` | Yes |
 | `SnowflakeIAMRoleName` | * Name of the AWS IAM role to be created by the framework<br/>* Role to be used to allow comms between S3 bucket(s) and Snowflake | `${PROGRAM}-snowflake-access-role` | Yes |
 | `SnowflakeVPCID` | * The ID of the VPC in which Snowflake resides within<br/>* Retrieved by running the Snowflake query:<br/>`SELECT system$$get_snowflake_platform_info();`<br/>* `ACCOUNTADMIN` privileges are required to run this query | `vpc-123f12e1` | Yes |
+
+---
+
+## 4. Additional info - overview of execution steps
+
+Described below is the main execution steps / flow of the framework:
+
+1) Creates account objects needed to support the above architecture, including:
+    * Databases for each of the zones highlighted above (raw, curated, analytics)
+    * A custom role hierarchy (shown below), to exercise RBAC across all of the account/database objects created
+    * Corresponding warehouses, resource monitors and 'custom admin-roles', to own account-level operations, e.g. to create a Snowflake Task, Storage Integration object etc.
+2) Create database objects needed to support the above architecture (more to follow.)
