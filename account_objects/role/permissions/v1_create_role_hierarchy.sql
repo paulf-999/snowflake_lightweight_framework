@@ -17,3 +17,5 @@ GRANT ROLE &{PROGRAM}_&{ENV}_SF_SI_ADMIN TO ROLE &{PROGRAM}_&{ENV}_DBA;
 GRANT ROLE &{PROGRAM}_&{ENV}_DATA_LOADER TO ROLE &{PROGRAM}_&{ENV}_DEVELOPER;
 --2. DATA_LOADER role is required to create new Snowflake tasks (i.e. be assigned the SF_TASK_ADMIN role)
 GRANT ROLE &{PROGRAM}_&{ENV}_SF_TASK_ADMIN TO ROLE &{PROGRAM}_&{ENV}_DATA_LOADER;
+--3. DBT_SVC requires the same permissions as the developer role
+GRANT ROLE &{PROGRAM}_&{ENV}_DEVELOPER TO ROLE &{PROGRAM}_&{ENV}_DBT_SVC;
