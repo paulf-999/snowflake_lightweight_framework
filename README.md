@@ -41,7 +41,9 @@ The steps involved in building and executing involve:
 1) Updating the input parameters within `env/env_example.json` (described below)
 2) and running `make`!
 
-### Input parameters
+---
+
+#### Input parameters
 
 Described below are the input parameters (from the file `env/env_example.json`) that are required for the framework:
 
