@@ -65,7 +65,7 @@ Described below are the input parameters (from the file `env/env_example.json`) 
 
 ## 4. Additional info - overview of execution steps
 
-Described below is the main execution steps / flow of the framework:
+Described below are the main execution steps / flow of the framework:
 
 1) Creates account objects needed to support the above architecture, including:
     * Databases for each of the zones highlighted above (raw, curated, analytics)
