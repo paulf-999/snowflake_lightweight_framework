@@ -9,10 +9,7 @@ Cookie-cutter framework to quickly create a lightweight Snowflake architecture.
 1. High-level summary
 2. Getting started
     * Prerequisites
-    * Installation
     * How-to run
-3. Help
-4. Folder contents
 
 ---
 
@@ -47,9 +44,3 @@ The steps involved in building and executing involve:
 
 1) Updating the input parameters within `env/env_example.json`
 2) and running `make`!
-
----
-
-## Credits
-
-This is an adapted version of the following [README](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc).
