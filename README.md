@@ -15,7 +15,7 @@ Cookie-cutter framework to quickly create a lightweight Snowflake architecture.
 
 ## 1. High-level summary
 
-The framework consists of using a `Makefile` to orchestrate the execution of `snowsql` commands.
+The framework consists of using a `Makefile` to orchestrate the execution of `SnowSQL` commands.
 
 Where the input args for the `Makefile` come from `env/env_example.json`.
 
@@ -38,5 +38,19 @@ Before you begin, ensure you have met the following requirements:
 
 The steps involved in building and executing involve:
 
-1) Updating the input parameters within `env/env_example.json`
+1) Updating the input parameters within `env/env_example.json` (described below)
 2) and running `make`!
+
+### Input parameters
+
+Described below are the input parameters (from the file `env/env_example.json`) that are required for the framework:
+
+| Parameter | Description | Example | Mandatory |
+|---|---|---|---|
+| `Program` | * Accronym to describe the program of work<br/>* Used extensively to prefix DB/account objects<br/>* Note: hyphens, spaces or underscores aren't allowed for this value | `DFP` <br/>(accronym for 'Data Foundations Project') | Yes  |
+| `Environment` | * The environment type<br/>* Used extensively, to prefix DB/account objects | `NP` (Non-Prod), `PROD` | Yes |
+| `S3BucketEg` | * The name of the S3 bucket to load data into Snowflake from | `s3://eg-s3-bucket` | Yes |
+| `AwsAccountId` | A 12-digit number that uniquely identifies an AWS account | `123456789012` | Yes |
+| `SnowflakeNamedConn` | * Refers to the value of a Snowflake 'named connection'<br/>* [`snowsql`](https://docs.snowflake.com/en/user-guide/snowsql.html) stores connection details within a configuration file<br/>* The default path to the configuration file is `~/.snowsql/config`<br/>* See [Snowflake Named Connections](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections) | `eg_sf_profile` | Yes |
+| `SnowflakeIAMRoleName` | * Name of the AWS IAM role to be created by the framework<br/>* Role to be used to allow comms between S3 bucket(s) and Snowflake | `${PROGRAM}-snowflake-access-role` | Yes |
+| `SnowflakeVPCID` | * The ID of the VPC in which Snowflake resides within<br/>* Retrieved by running the Snowflake query:<br/>`SELECT system$$get_snowflake_platform_info();`<br/>* `ACCOUNTADMIN` privileges are required to run this query | `vpc-123f12e1` | Yes |
