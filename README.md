@@ -1,32 +1,55 @@
-## Snowflake Lightweight Framework
+# Project Title
 
 Cookie-cutter framework to quickly create a lightweight Snowflake architecture.
 
-### High-level summary
+---
 
-The framework consists of using a `makefile` to orchestrate the execution of `snowsql` commands. Where:
+## Contents
 
-* the input args for the `makefile` come from `env/config_example.json`
+1. High-level summary
+2. Getting started
+    * Prerequisites
+    * Installation
+    * How-to run
+3. Help
+4. Folder contents
+
+---
+
+## 1. High-level summary
+
+The framework consists of using a `Makefile` to orchestrate the execution of `snowsql` commands.
+
+Where the input args for the `Makefile` come from `env/env_example.json`.
 
 ![image info](pictures/snowflake-framework-architecture.png)
 
-The main execution steps are as follows:
+---
 
-1) Creates account objects needed to support the above architecture, including:
-    * Databases for each of the zones highlighted above (raw, curated, analytics)
-    * A custom role hierarchy (shown below), to exercise RBAC across all of the account/database objects created
-    * Corresponding warehouses, resource monitors and 'custom admin-roles', to own account-level operations, e.g. to create a Snowflake Task, Storage Integration object etc.
-2) Create database objects needed to support the above architecture (more to follow.)
+## 2. Getting started
 
-![image info](pictures/snowflake-role-hierarchy.png)
+### Prerequisites
 
-### Prerequisites:
+Before you begin, ensure you have met the following requirements:
 
-1) You'll need to create a SnowSQL 'named profile', used to store the credentials used to connect to your Snowflake cluster. Following this, update the value of the variable ${SNOWFLAKE_CONN_PROFILE} to the name you've used for your connection profile
-2) If you're looking to make use of CI/CD activities, you'll need to create a corresponding user the the CI/CD pipelines to use. The templated SQL script to create this user can be found within: `account_objects/user/v1_create_pipeline_deploy_user.sql`
-### How-to run:
+| Mandatory / Optional | Prerequisite | Steps                  |
+| -------| -----------| ------------------|
+| Mandatory | Install [SnowSQL](https://docs.snowflake.com/en/user-guide/snowsql.html) and configure a SnowSQL [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections) | Once you've created a [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections), update the value of the corresponding key `SnowflakeNamedConn`<br/>within the file `env/env_example.json` |
+| Optional | Create a user for CI/CD activities | If you're looking to carry out CI/CD activities, you'll need to create a corresponding service role.<br/>The templated SQL script to create this user can be found within:<br/>`account_objects/user/v1_create_pipeline_deploy_user.sql` |
+
+* Install [SnowSQL](https://docs.snowflake.com/en/user-guide/snowsql.html) and configure a SnowSQL [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections)
+    * Following this, update the value of the corresponding key `SnowflakeNamedConn` within the file `env/env_example.json`
+*
+
+### How-to run
 
 The steps involved in building and executing involve:
 
-1) Updating the input parameters within `env/config_example.json`
+1) Updating the input parameters within `env/env_example.json`
 2) and running `make`!
+
+---
+
+## Credits
+
+This is an adapted version of the following [README](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc).
