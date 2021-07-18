@@ -55,11 +55,11 @@ Described below are the input parameters (from the file `env/env_example.json`) 
 |---|---|---|---|
 | `Program` | * Accronym to describe the program of work<br/>* Used extensively to prefix DB/account objects<br/>* Note: hyphens, spaces or underscores aren't allowed for this value | `DFP` <br/>(accronym for 'Data Foundations Project') | Yes  |
 | `Environment` | * The environment type<br/>* Used extensively, to prefix DB/account objects | `NP` (Non-Prod), `PROD` | Yes |
-| `S3BucketEg` | * The name of the S3 bucket to load data into Snowflake from | `s3://eg-s3-bucket` | Yes |
 | `AwsAccountId` | A 12-digit number that uniquely identifies an AWS account | `123456789012` | Yes |
 | `SnowflakeNamedConn` | * Refers to the value of a Snowflake 'named connection'<br/>* [`snowsql`](https://docs.snowflake.com/en/user-guide/snowsql.html) stores connection details within a configuration file<br/>* The default path to the configuration file is `~/.snowsql/config`<br/>* See [Snowflake Named Connections](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections) | `eg_sf_profile` | Yes |
 | `SnowflakeIAMRoleName` | * Name of the AWS IAM role to be created by the framework<br/>* Role to be used to allow comms between S3 bucket(s) and Snowflake | `${PROGRAM}-snowflake-access-role` | Yes |
 | `SnowflakeVPCID` | * The ID of the VPC in which Snowflake resides within<br/>* Retrieved by running the Snowflake query:<br/>`SELECT system$$get_snowflake_platform_info();`<br/>* `ACCOUNTADMIN` privileges are required to run this query | `vpc-123f12e1` | Yes |
+| `S3BucketEg` | * The name of the S3 bucket to load data into Snowflake from | `s3://eg-s3-bucket` | Yes |
 
 ---
 
