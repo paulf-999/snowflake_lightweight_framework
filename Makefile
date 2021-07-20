@@ -1,4 +1,4 @@
-default: validate_ip create_snowflake_account_objs establish_sf_s3_connectivity create_snowflake_raw_db_objs create_snowflake_curated_db_objs create_snowflake_analytics_db_objs
+all: validate_ip create_snowflake_account_objs establish_sf_s3_connectivity create_snowflake_raw_db_objs create_snowflake_curated_db_objs create_snowflake_analytics_db_objs
 
 # fetch inputs from config (json) file
 CONFIG_FILE=env/env_example.json
@@ -49,7 +49,7 @@ create_snowflake_account_objs:
 	@${SNOWSQL_QUERY} -f account_objects/role/permissions/grant_permissions/v1_grant_execute_task_perms.sql --variable PROGRAM=${PROGRAM}	--variable ENV=${ENV}
 	@${SNOWSQL_QUERY} -f account_objects/role/permissions/grant_permissions/create/v1_grant_create_stage_perms.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	@${SNOWSQL_QUERY} -f account_objects/role/permissions/v1_create_role_hierarchy.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
-	# the 3 objects below require a subsequent AWS IAM role to be created (see the recipe 'establish_sf_s3_connectivity' below)
+	# the 3 objects below require a subsequent AWS IAM role to be created (see the Makefile target 'establish_sf_s3_connectivity' below)
 	# @${SNOWSQL_QUERY} -f account_objects/storage_integration/v1-create-s3-storage-integration.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV} --variable ENV=${ENV} --variable IAMROLENAME=${SNOWFLAKE_IAM_ROLE_NAME} --variable AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID} --variable ALLOWED_S3_LOCATIONS="${S3_BUCKET_LIST}"
 	# @${SNOWSQL_QUERY} -f account_objects/role/permissions/grant_permissions/ownership/v1_grant_storage_int_ownership_perms.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
 	# @${SNOWSQL_QUERY} -f account_objects/role/permissions/grant_permissions/v1_grant_role_permissions.sql --variable PROGRAM=${PROGRAM} --variable ENV=${ENV}
