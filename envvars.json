@@ -1,0 +1,20 @@
+{
+    "Parameters" : {
+        "program" : "bike_shop",
+        "Environment" : "np",
+        "snowsql_bootstrap_version" : 1.2,
+        "snowsql_version" : "${snowsql_bootstrap_version}.9",
+        "snowsql_installer_path" : "https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/${snowsql_bootstrap_version}/darwin_x86_64/snowsql-${snowsql_version}-darwin_x86_64.pkg",
+        "SnowflakeParams" : {
+            "sf_acc_name" : "${sf_acc_name_dbt_demo}",
+            "sf_username" : "${sf_username_dbt_demo}",
+            "sf_pass" : "${sf_pass_dbt_demo}"
+        },
+        "AdditionalParameters" : {
+            "AwsAccountId": 123456789199,
+            "S3BucketEg": "${program}-${data_src}-raw-${aws_account_id}",
+            "SnowflakeIAMRoleName" : "${program_lower}-snowflake-access-role",
+            "SnowflakeVPCID" : "vpc-123f12e1"
+        }
+    }
+}
