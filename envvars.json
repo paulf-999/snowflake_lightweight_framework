@@ -2,6 +2,9 @@
     "Parameters" : {
         "program" : "bike_shop",
         "Environment" : "np",
+        "data_src1" : "production",
+        "data_src2" : "sales",
+        "EgDBAUser" : "Paul999",
         "snowsql_bootstrap_version" : 1.2,
         "snowsql_version" : "${snowsql_bootstrap_version}.9",
         "snowsql_installer_path" : "https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/${snowsql_bootstrap_version}/darwin_x86_64/snowsql-${snowsql_version}-darwin_x86_64.pkg",

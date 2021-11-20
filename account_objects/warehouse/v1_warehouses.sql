@@ -10,68 +10,54 @@ DROP WAREHOUSE IF EXISTS &{PROGRAM}_&{ENV}_DEVELOPER_WH;
 USE ROLE ACCOUNTADMIN;
 CREATE WAREHOUSE IF NOT EXISTS &{PROGRAM}_DEVELOPER_WH WITH
     WAREHOUSE_SIZE = XSMALL
-    MAX_CLUSTER_COUNT = 1
-    SCALING_POLICY = ECONOMY
     AUTO_SUSPEND = 60
     AUTO_RESUME = TRUE
-    RESOURCE_MONITOR = &{PROGRAM}_DEVELOPER_WH_RM
+    RESOURCE_MONITOR = &{PROGRAM}_&{ENV}_DEVELOPER_WH_RM
     COMMENT = 'Used for generic Snowflake DB object creation, outside of environment-specific DBs.';
 
 CREATE WAREHOUSE IF NOT EXISTS &{PROGRAM}_&{ENV}_DEVELOPER_WH WITH
     WAREHOUSE_SIZE = XSMALL
-    MAX_CLUSTER_COUNT = 1
-    SCALING_POLICY = ECONOMY
     AUTO_SUSPEND = 60
     AUTO_RESUME = TRUE
     RESOURCE_MONITOR = &{PROGRAM}_&{ENV}_DEVELOPER_WH_RM
-    COMMENT = 'Used for Snowflake DB object creation for the &{ENV} environment.';
+    COMMENT = 'Used for Snowflake DB object creation.';
 
 USE WAREHOUSE &{PROGRAM}_&{ENV}_DEVELOPER_WH;
 CREATE WAREHOUSE IF NOT EXISTS &{PROGRAM}_&{ENV}_LOADING_WH WITH
     WAREHOUSE_SIZE = XSMALL
-    MAX_CLUSTER_COUNT = 1
-    SCALING_POLICY = ECONOMY
     AUTO_SUSPEND = 60
     AUTO_RESUME = TRUE
     RESOURCE_MONITOR = &{PROGRAM}_&{ENV}_LOADING_WH_RM
-    COMMENT = 'Used to process data load/unload activities on the &{PROGRAM}_&{ENV}_RAW DB  for the &{ENV} environment.';
+    COMMENT = 'Used to process data load/unload activities on the &{PROGRAM}_RAW DB .';
 
 USE WAREHOUSE &{PROGRAM}_&{ENV}_DEVELOPER_WH;
 CREATE WAREHOUSE IF NOT EXISTS &{PROGRAM}_&{ENV}_TRANSFORMATION_WH WITH
     WAREHOUSE_SIZE = SMALL
-    MAX_CLUSTER_COUNT = 2
-    SCALING_POLICY = STANDARD
     AUTO_SUSPEND = 60
     AUTO_RESUME = TRUE
     RESOURCE_MONITOR = &{PROGRAM}_&{ENV}_TRANSFORMATION_WH_RM
-    COMMENT = 'Used to perform data transformations between databases for the &{ENV} environment.';
+    COMMENT = 'Used to perform data transformations between databases.';
 
 USE WAREHOUSE &{PROGRAM}_&{ENV}_DEVELOPER_WH;
 CREATE WAREHOUSE IF NOT EXISTS &{PROGRAM}_&{ENV}_TRANSFORMATION_LRG_WH WITH
     WAREHOUSE_SIZE = MEDIUM
-    MAX_CLUSTER_COUNT = 4
-    SCALING_POLICY = STANDARD
     AUTO_SUSPEND = 60
     AUTO_RESUME = TRUE
     RESOURCE_MONITOR = &{PROGRAM}_&{ENV}_TRANSFORMATION_LRG_WH_RM
-    COMMENT = 'Used to perform larger data transformations between databases for the &{ENV} environment.';
+    COMMENT = 'Used to perform larger data transformations between databases.';
 
 USE WAREHOUSE &{PROGRAM}_&{ENV}_DEVELOPER_WH;
 CREATE WAREHOUSE IF NOT EXISTS &{PROGRAM}_&{ENV}_SP_TRANSFORMATION_WH WITH
     WAREHOUSE_SIZE = MEDIUM
-    MAX_CLUSTER_COUNT = 4
-    SCALING_POLICY = STANDARD
     AUTO_SUSPEND = 60
     AUTO_RESUME = TRUE
     RESOURCE_MONITOR = &{PROGRAM}_&{ENV}_SP_TRANSFORMATION_WH_RM
-    COMMENT = 'Used to perform data transformations between databases, using stored procs for the &{ENV} environment.';
+    COMMENT = 'Used to perform data transformations between databases, using stored procs.';
 
 USE WAREHOUSE &{PROGRAM}_&{ENV}_DEVELOPER_WH;
 CREATE WAREHOUSE IF NOT EXISTS &{PROGRAM}_&{ENV}_REPORTING_WH WITH
     WAREHOUSE_SIZE = XSMALL
-    MAX_CLUSTER_COUNT = 1
-    SCALING_POLICY = ECONOMY
     AUTO_SUSPEND = 60
     AUTO_RESUME = TRUE
     RESOURCE_MONITOR = &{PROGRAM}_&{ENV}_REPORTING_WH_RM
-    COMMENT = 'Used to process queries performed through Tableau for the &{ENV} environment.';
+    COMMENT = 'Used to process queries performed through Tableau.';

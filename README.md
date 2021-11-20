@@ -33,7 +33,7 @@ Before you begin, ensure you have met the following requirements:
 
 | Mandatory / Optional | Prerequisite | Steps |
 | -------| -----------| ------------------|
-| Mandatory | Install [SnowSQL](https://docs.snowflake.com/en/user-guide/snowsql.html) and configure a SnowSQL [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections) | Once you've created a [*named connection*](https://docs.snowflake.com/en/user-guide/snowsql-start.html#using-named-connections), update the value of the corresponding key `SnowflakeNamedConn` within `env/env_example.json`. |
+| Mandatory | Specify the DBA username | A custom role hierarchy is created, granting targetted permissions to specific roles. With this in mind, you'll need to specify the name of the DBA user.<br/>The significant importance of this DBA user is within the templated SQL script to grant the required permissions to this DBA user:<br/>`account_objects/role/permissions/grant_permissions/v1_grant_dba_role.sql` |
 | Optional | Create a user for CI/CD activities | If you're looking to carry out CI/CD activities, you'll need to create a corresponding service role.<br/>The templated SQL script to create this user can be found within:<br/>`account_objects/user/v1_create_pipeline_deploy_user.sql` |
 
 ---

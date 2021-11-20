@@ -7,6 +7,9 @@ $(eval program_upper=$(shell echo $(program) | tr 'a-z' 'A-Z'))
 $(eval program_lower=$(shell echo $(program) | tr 'A-Z' 'a-z'))
 $(eval env=$(shell jq '.Parameters.Environment' ${config_file}))
 $(eval env_upper=$(shell jq '.Parameters.Environment' ${config_file}))
+$(eval data_src1=$(shell jq '.Parameters.data_src1' ${config_file}))
+$(eval data_src2=$(shell jq '.Parameters.data_src2' ${config_file}))
+$(eval dba_user=$(shell jq '.Parameters.EgDBAUser' ${config_file}))
 $(eval sf_conn_profile=$(shell echo $(program) | tr 'A-Z' 'a-z'))
 $(eval bootstrap_version=$(shell jq '.Parameters.snowsql_bootstrap_version' ${config_file}))
 $(eval snowsql_version=$(shell jq '.Parameters.snowsql_version' ${config_file}))
@@ -56,15 +59,15 @@ create_snowflake_account_objs:
 	@${snowsql_query} -f set_default_tz_and_ts.sql
 	@${snowsql_query} -f account_objects/role/v1_roles.sql --variable program=${program} --variable env=${env}
 	# note: part of the script below may not be needed right away. The main purpose of this script is to grant privs to the user 'SNOWFLAKE_PIPELINE_DEPLOYMENT_USER' & any developer users on the project
-	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/v1_grant_dba_role.sql --variable program=${program} --variable env=${env}
+	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/v1_grant_dba_role.sql --variable program=${program} --variable env=${env} --variable dba_user=${dba_user}
 	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/create/v1_grant_create_db_and_wh_perms.sql --variable program=${program} --variable env=${env}
 	@${snowsql_query} -f account_objects/resource_monitor/v1_resource_monitors.sql --variable program=${program} --variable env=${env}
 	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/ownership/v1_grant_resource_monitor_ownership_perms.sql --variable program=${program} --variable env=${env}
 	@${snowsql_query} -f account_objects/warehouse/v1_warehouses.sql --variable program=${program} --variable env=${env}
 	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/ownership/v1_grant_wh_ownership_perms.sql --variable program=${program} --variable env=${env}
-	@${snowsql_query} -f account_objects/database/v1_raw_db_and_schemas.sql --variable program=${program} --variable env=${env}
+	@${snowsql_query} -f account_objects/database/v1_raw_db_and_schemas.sql --variable program=${program} --variable env=${env} --variable data_src1=${data_src1} --variable data_src2=${data_src2}
 	@${snowsql_query} -f account_objects/database/v1_curated_db_and_schemas.sql --variable program=${program} --variable env=${env}
-	@${snowsql_query} -f account_objects/database/v1_analytics_db_and_schemas.sql --variable program=${program} --variable env=${env}
+	@${snowsql_query} -f account_objects/database/v1_analytics_db_and_schemas.sql --variable program=${program} --variable env=${env} --variable data_src=${data_src1}
 	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/v1_grant_execute_task_perms.sql --variable program=${program}	--variable env=${env}
 	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/create/v1_grant_create_stage_perms.sql --variable program=${program} --variable env=${env}
 	@${snowsql_query} -f account_objects/role/permissions/v1_create_role_hierarchy.sql --variable program=${program} --variable env=${env}
@@ -88,10 +91,10 @@ create_snowflake_raw_db_objs:
 	${snowsql_query} -f database_objects/raw_db/file_format/v1_parquet_file_format.sql --variable program=${program} --variable env=${env}
 	${snowsql_query} -f database_objects/raw_db/file_format/v1_csv_file_format.sql --variable program=${program} --variable env=${env}
 	${snowsql_query} -f database_objects/raw_db/stage/v1_eg_stage.sql --variable program=${PROGRAM_UPPER} --variable env=${env_upper} --variable S3_BUCKET_PATH=${S3_BUCKET_EG}
-	${snowsql_query} -f database_objects/raw_db/ext_table/v1_<DATA_SRC>_ext_tbl.sql --variable program=${program} --variable env=${env}
+	#${snowsql_query} -f database_objects/raw_db/ext_table/v1_<DATA_SRC>_ext_tbl.sql --variable program=${program} --variable env=${env}
 	${snowsql_query} -f database_objects/raw_db/table/v1_etl_control_tbl.sql --variable program=${program} --variable env=${env}
-	${snowsql_query} -f database_objects/raw_db/table/<DATA_SRC>/<TBL_TO_LOAD>.sql --variable program=${program} --variable env=${env}
-	${snowsql_query} -f database_objects/raw_db/task/v1_<DATA_SRC>_tsk.sql --variable program=${program} --variable env=${env}
+	#${snowsql_query} -f database_objects/raw_db/table/<DATA_SRC>/<TBL_TO_LOAD>.sql --variable program=${program} --variable env=${env}
+	#${snowsql_query} -f database_objects/raw_db/task/v1_<DATA_SRC>_tsk.sql --variable program=${program} --variable env=${env}
 
 create_snowflake_curated_db_objs:
 	$(info [+] Create the snowflake curated db objects)
