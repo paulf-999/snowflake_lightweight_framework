@@ -74,7 +74,7 @@ create_snowflake_account_objs:
 	# the 3 objects below require a subsequent AWS IAM role to be created (see the Makefile target 'establish_sf_s3_connectivity' below)
 	# @${snowsql_query} -f account_objects/storage_integration/v1-create-s3-storage-integration.sql --variable program=${program} --variable env=${env} --variable env=${env} --variable IAMROLENAME=${sf_iam_role_name} --variable aws_account_id=${aws_account_id} --variable ALLOWED_S3_LOCATIONS="${S3_BUCKET_LIST}"
 	# @${snowsql_query} -f account_objects/role/permissions/grant_permissions/ownership/v1_grant_storage_int_ownership_perms.sql --variable program=${program} --variable env=${env}
-	# @${snowsql_query} -f account_objects/role/permissions/grant_permissions/v1_grant_role_permissions.sql --variable program=${program} --variable env=${env}
+	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/v1_grant_role_permissions.sql --variable program=${program} --variable env=${env}
 
 establish_sf_s3_connectivity:
 	$(info [+] Establish connectivity between specified S3 buckets and Snowflake)
@@ -90,9 +90,9 @@ create_snowflake_raw_db_objs:
 	@[ "${sf_conn_profile}" ] || ( echo "\nError: sf_conn_profile variable is not set\n"; exit 1 )
 	${snowsql_query} -f database_objects/raw_db/file_format/v1_parquet_file_format.sql --variable program=${program} --variable env=${env}
 	${snowsql_query} -f database_objects/raw_db/file_format/v1_csv_file_format.sql --variable program=${program} --variable env=${env}
-	${snowsql_query} -f database_objects/raw_db/stage/v1_eg_stage.sql --variable program=${PROGRAM_UPPER} --variable env=${env_upper} --variable S3_BUCKET_PATH=${S3_BUCKET_EG}
+	#${snowsql_query} -f database_objects/raw_db/stage/v1_eg_stage.sql --variable program=${program_upper} --variable env=${env_upper} --variable S3_BUCKET_PATH=${s3_bucket_eg}
 	#${snowsql_query} -f database_objects/raw_db/ext_table/v1_<DATA_SRC>_ext_tbl.sql --variable program=${program} --variable env=${env}
-	${snowsql_query} -f database_objects/raw_db/table/v1_etl_control_tbl.sql --variable program=${program} --variable env=${env}
+	${snowsql_query} -f database_objects/raw_db/table/v1_etl_control_tbl.sql --variable program=${program} --variable env=${env} --data_src env=${data_src1}
 	#${snowsql_query} -f database_objects/raw_db/table/<DATA_SRC>/<TBL_TO_LOAD>.sql --variable program=${program} --variable env=${env}
 	#${snowsql_query} -f database_objects/raw_db/task/v1_<DATA_SRC>_tsk.sql --variable program=${program} --variable env=${env}
 
