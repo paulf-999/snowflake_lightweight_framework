@@ -92,7 +92,7 @@ create_snowflake_raw_db_objs:
 	${snowsql_query} -f database_objects/raw_db/file_format/v1_csv_file_format.sql --variable program=${program} --variable env=${env}
 	#${snowsql_query} -f database_objects/raw_db/stage/v1_eg_stage.sql --variable program=${program_upper} --variable env=${env_upper} --variable S3_BUCKET_PATH=${s3_bucket_eg}
 	#${snowsql_query} -f database_objects/raw_db/ext_table/v1_<DATA_SRC>_ext_tbl.sql --variable program=${program} --variable env=${env}
-	${snowsql_query} -f database_objects/raw_db/table/v1_etl_control_tbl.sql --variable program=${program} --variable env=${env} --data_src env=${data_src1}
+	${snowsql_query} -f database_objects/raw_db/table/v1_etl_control_tbl.sql --variable program=${program} --variable env=${env} --variable data_src=${data_src1}
 	#${snowsql_query} -f database_objects/raw_db/table/<DATA_SRC>/<TBL_TO_LOAD>.sql --variable program=${program} --variable env=${env}
 	#${snowsql_query} -f database_objects/raw_db/task/v1_<DATA_SRC>_tsk.sql --variable program=${program} --variable env=${env}
 
@@ -106,7 +106,27 @@ create_snowflake_analytics_db_objs:
 	@[ "${sf_conn_profile}" ] || ( echo "\nError: sf_conn_profile variable is not set\n"; exit 1 )
 	${snowsql_query} -f database_objects/analytics_db/view/${REPORTING LAYER OBJS}.sql --variable program=${program} --variable env=${env}
 
+################################################################################################################################################
+# smaller example
+################################################################################################################################################
+create_and_upload_raw_db_obj_data:
+	$(info [+] Create the snowflake RAW db objects)
+	@${snowsql_query} -f database_objects/raw_db/table/v1_sales_tbls.sql --variable program=${program} --variable env=${env}
+	@${snowsql_query} -f database_objects/raw_db/table/v1_production_tbls.sql --variable program=${program} --variable env=${env}
+
+load_ip_data:
+	$(info [+] Create stages, upload files to stage then load into target tables)
+	@${snowsql_query} -f database_objects/raw_db/file_format/v1_csv_file_format.sql --variable PROGRAM=${program} --variable env=${env}
+	@${snowsql_query} -f database_objects/raw_db/stage/v1_bikestores_stage.sql --variable PROGRAM=${program_upper} --variable env=${env}
+
+	# upload the files
+	@${snowsql_query} -f data_loading/upload_data.sql --variable PROGRAM=${program} --variable env=${env}
+	@${snowsql_query} -f data_loading/insert_data_into_raw_production_tbls.sql --variable PROGRAM=${program} --variable env=${env}
+	@${snowsql_query} -f data_loading/insert_data_into_raw_sales_tbls.sql --variable PROGRAM=${program} --variable env=${env}
+
+################################################################################################################################################
 # Dev scripts
+################################################################################################################################################
 drop_sf_db_objs:
 	$(info [+] Dev purposes: quickly drop all raw/curated/analytics DB objs)
 	${snowsql_query} -f dev_scripts/drop_db_objs_struct.sql --variable program=${program} --variable env=${env_upper}
