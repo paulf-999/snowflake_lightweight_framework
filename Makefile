@@ -68,7 +68,8 @@ create_snowflake_account_objs:
 	@${snowsql_query} -f account_objects/database/v1_raw_db_and_schemas.sql --variable program=${program} --variable env=${env} --variable data_src1=${data_src1} --variable data_src2=${data_src2}
 	@${snowsql_query} -f account_objects/database/v1_curated_db_and_schemas.sql --variable program=${program} --variable env=${env}
 	@${snowsql_query} -f account_objects/database/v1_analytics_db_and_schemas.sql --variable program=${program} --variable env=${env} --variable data_src=${data_src1}
-	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/v1_grant_execute_task_perms.sql --variable program=${program}	--variable env=${env}
+	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/v1_grant_execute_task_perms.sql --variable program=${program} --variable env=${env}
+	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/v1_grant_apply_tag_permissions.sql --variable program=${program} --variable env=${env}
 	@${snowsql_query} -f account_objects/role/permissions/grant_permissions/create/v1_grant_create_stage_perms.sql --variable program=${program} --variable env=${env}
 	@${snowsql_query} -f account_objects/role/permissions/v1_create_role_hierarchy.sql --variable program=${program} --variable env=${env}
 	# the 3 objects below require a subsequent AWS IAM role to be created (see the Makefile target 'establish_sf_s3_connectivity' below)
