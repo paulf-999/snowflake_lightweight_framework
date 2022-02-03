@@ -1,7 +1,0 @@
-
-[connections.bike_shop]
-accountname = sb83418.ap-southeast-2
-username = Paul999
-password = %sf_pass
-database = bike_shop_raw_db
-warehouse = bike_shop_developer_wh

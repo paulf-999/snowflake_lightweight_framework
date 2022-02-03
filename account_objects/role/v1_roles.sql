@@ -22,4 +22,4 @@ CREATE ROLE IF NOT EXISTS &{PROGRAM}_&{ENV}_DBT_SVC COMMENT = 'Used by DBT to bu
 CREATE ROLE IF NOT EXISTS &{PROGRAM}_&{ENV}_SF_TASK_ADMIN COMMENT = 'Admininstrator for Snowflake tasks.';
 CREATE ROLE IF NOT EXISTS &{PROGRAM}_&{ENV}_SF_STAGE_ADMIN COMMENT = 'Admininstrator for Snowflake stages.';
 CREATE ROLE IF NOT EXISTS &{PROGRAM}_&{ENV}_SF_SI_ADMIN COMMENT = 'Admininstrator for Snowflake storage integratons.';
-CREATE ROLE IF NOT EXISTS &{PROGRAM}_&{ENV}_SF_TAG_ADMIN = 'Adminstrator for creating and assigning tags to Snowflake objects.';
+CREATE ROLE IF NOT EXISTS &{PROGRAM}_&{ENV}_SF_TAG_ADMIN COMMENT = 'Adminstrator for creating and assigning tags to Snowflake objects.';
